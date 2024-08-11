@@ -151,8 +151,7 @@ export default function Home() {
         alignItems: 'center',
         gap: 4,
         bgcolor: '#FFFFFF',
-        overflowY: 'auto', // Enable vertical scrolling
-        p: 2, // Add some padding
+        p: 2, // Padding around the main content
       }}
     >
       {error && <Alert severity="error" sx={{ width: '50%' }}>{error}</Alert>}
@@ -245,11 +244,10 @@ export default function Home() {
           bgcolor: '#F4C2C2',
           borderRadius: 4,
           boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-          maxHeight: 'calc(100vh - 200px)', // Adjust as needed
-          overflowY: 'auto', // Enable vertical scrolling within this box
-          p: 2,
+          overflow: 'hidden',
         }}
       >
+        {/* Fixed Header Section */}
         <Box
           sx={{
             bgcolor: '#3F5277',
@@ -257,51 +255,64 @@ export default function Home() {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            position: 'sticky', // Keep the header fixed
+            top: 0, // Position it at the top of the container
+            zIndex: 1, // Ensure it stays above other content
           }}
         >
           <Typography variant="h4" color="white" fontWeight="bold">
             Inventory Management
           </Typography>
         </Box>
-        <Stack spacing={2} p={3}>
-          {filteredInventory.map(({ name, quantity }) => (
-            <Box
-              key={name}
-              sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                p: 2,
-                bgcolor: '#FFFFFF',
-                borderRadius: 2,
-                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-              }}
-            >
-              <Typography variant="h6" color="#3F5277" fontWeight="bold">
-                {name.charAt(0).toUpperCase() + name.slice(1)}
-              </Typography>
-              <Typography variant="body1" color="#3F5277">
-                Quantity: {quantity}
-              </Typography>
-              <Stack direction="row" spacing={2}>
-                <Button
-                  variant="contained"
-                  onClick={() => handleOpenEdit({ name, quantity })}
-                  sx={{ bgcolor: '#008000', color: 'white' }} // Updated to green
-                >
-                  Update
-                </Button>
-                <Button
-                  variant="contained"
-                  onClick={() => removeItem(name)}
-                  sx={{ bgcolor: '#FF0000', color: 'white' }}
-                >
-                  Remove
-                </Button>
-              </Stack>
-            </Box>
-          ))}
-        </Stack>
+
+        {/* Inventory List */}
+        <Box
+          sx={{
+            maxHeight: 'calc(100vh - 200px)', // Adjust the height to fit within the viewport
+            overflowY: 'auto', // Enable vertical scrolling for the list
+            p: 2,
+          }}
+        >
+          <Stack spacing={2}>
+            {filteredInventory.map(({ name, quantity }) => (
+              <Box
+                key={name}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  p: 2,
+                  bgcolor: '#FFFFFF',
+                  borderRadius: 2,
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+                }}
+              >
+                <Typography variant="h6" color="#3F5277" fontWeight="bold">
+                  {name.charAt(0).toUpperCase() + name.slice(1)}
+                </Typography>
+                <Typography variant="body1" color="#3F5277">
+                  Quantity: {quantity}
+                </Typography>
+                <Stack direction="row" spacing={2}>
+                  <Button
+                    variant="contained"
+                    onClick={() => handleOpenEdit({ name, quantity })}
+                    sx={{ bgcolor: '#008000', color: 'white' }}
+                  >
+                    Update
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={() => removeItem(name)}
+                    sx={{ bgcolor: '#FF0000', color: 'white' }}
+                  >
+                    Remove
+                  </Button>
+                </Stack>
+              </Box>
+            ))}
+          </Stack>
+        </Box>
       </Box>
 
       <Button
