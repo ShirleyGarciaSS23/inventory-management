@@ -1,3 +1,5 @@
+'use client' // Ensure the component is rendered on the client side
+
 import { useState, useEffect } from 'react'
 import { Box, Stack, Typography, Button, Modal, TextField, Alert } from '@mui/material'
 import { firestore } from '@/firebase'
@@ -149,7 +151,8 @@ export default function Home() {
         alignItems: 'center',
         gap: 4,
         bgcolor: '#FFFFFF',
-        overflow: 'auto', // Enable scrolling if content overflows
+        overflowY: 'auto', // Enable vertical scrolling
+        p: 2, // Add some padding
       }}
     >
       {error && <Alert severity="error" sx={{ width: '50%' }}>{error}</Alert>}
@@ -242,8 +245,9 @@ export default function Home() {
           bgcolor: '#F4C2C2',
           borderRadius: 4,
           boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-          maxHeight: 'calc(100vh - 200px)', // Adjust this value as needed
+          maxHeight: 'calc(100vh - 200px)', // Adjust as needed
           overflowY: 'auto', // Enable vertical scrolling within this box
+          p: 2,
         }}
       >
         <Box
