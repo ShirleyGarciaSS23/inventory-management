@@ -27,6 +27,8 @@ const modalStyle = {
 
 export default function Home() {
   const [inventory, setInventory] = useState([])
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filteredInventory, setFilteredInventory] = useState([])
   const [openAdd, setOpenAdd] = useState(false)
   const [openEdit, setOpenEdit] = useState(false)
   const [itemName, setItemName] = useState('')
@@ -52,6 +54,14 @@ export default function Home() {
   useEffect(() => {
     updateInventory()
   }, [])
+
+  useEffect(() => {
+    setFilteredInventory(
+      inventory.filter(item =>
+        item.name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    )
+  }, [searchQuery, inventory])
 
   const addItem = async (item) => {
     try {
@@ -147,6 +157,17 @@ export default function Home() {
       {error && <Alert severity="error" sx={{ width: '50%' }}>{error}</Alert>}
       {success && <Alert severity="success" sx={{ width: '50%' }}>{success}</Alert>}
 
+      {/* Search Field */}
+      <TextField
+        id="search-field"
+        label="Search Items"
+        variant="outlined"
+        fullWidth
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        sx={{ mb: 2, maxWidth: '800px' }}
+      />
+
       {/* Add Item Modal */}
       <Modal
         open={openAdd}
@@ -240,7 +261,7 @@ export default function Home() {
           </Typography>
         </Box>
         <Stack spacing={2} p={3}>
-          {inventory.map(({ name, quantity }) => (
+          {filteredInventory.map(({ name, quantity }) => (
             <Box
               key={name}
               sx={{
