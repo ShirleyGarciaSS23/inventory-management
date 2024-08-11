@@ -1,5 +1,3 @@
-'use client'
-
 import { useState, useEffect } from 'react'
 import { Box, Stack, Typography, Button, Modal, TextField, Alert } from '@mui/material'
 import { firestore } from '@/firebase'
@@ -147,11 +145,11 @@ export default function Home() {
         width: '100vw',
         height: '100vh',
         display: 'flex',
-        justifyContent: 'center',
         flexDirection: 'column',
         alignItems: 'center',
         gap: 4,
         bgcolor: '#FFFFFF',
+        overflow: 'auto', // Enable scrolling if content overflows
       }}
     >
       {error && <Alert severity="error" sx={{ width: '50%' }}>{error}</Alert>}
@@ -244,7 +242,8 @@ export default function Home() {
           bgcolor: '#F4C2C2',
           borderRadius: 4,
           boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-          overflow: 'hidden',
+          maxHeight: 'calc(100vh - 200px)', // Adjust this value as needed
+          overflowY: 'auto', // Enable vertical scrolling within this box
         }}
       >
         <Box
